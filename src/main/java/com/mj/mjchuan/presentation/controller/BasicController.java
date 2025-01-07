@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-package com.mj.mjchuan.demos.web;
+package com.mj.mjchuan.presentation.controller;
 
+import com.mj.mjchuan.domain.rule.model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;

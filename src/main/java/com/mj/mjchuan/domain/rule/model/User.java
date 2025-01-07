@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mj.mjchuan.demos.web;
+package com.mj.mjchuan.domain.rule.model;
 
 /**
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>

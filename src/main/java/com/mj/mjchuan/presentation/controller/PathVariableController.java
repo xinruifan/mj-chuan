@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mj.mjchuan.demos.web;
+package com.mj.mjchuan.presentation.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
