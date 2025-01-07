@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<UserInfo, Long> {
 
 
-    @Query(value = "select * from user_info where account = ?1  and password = ?2", nativeQuery = true)
-    UserInfo findByAccountAndPw(String account,String password);
+    @Query(value = "select * from user_info where account = ?1", nativeQuery = true)
+    UserInfo findByAccount(String account);
 }

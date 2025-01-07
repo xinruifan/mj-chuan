@@ -8,5 +8,5 @@ import com.mj.mjchuan.presentation.req.UserLoginReq;
  */
 public interface UserService {
 
-    String login(UserLoginReq userLoginReq);
+    String login(UserLoginReq userLoginReq) throws Exception;
 }
