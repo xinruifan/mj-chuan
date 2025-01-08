@@ -1,6 +1,7 @@
 package com.mj.mjchuan.domain.game.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -21,8 +22,25 @@ public class GameRound {
 
     private Long roundCount;
 
-    // wait begin end
-    private String state;
+    private String wallCard;
+
+    private Integer state;
+
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private GamePlayerState gamePlayerStateE;
+
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private GamePlayerState gamePlayerStateS;
+
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private GamePlayerState gamePlayerStateW;
+
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private GamePlayerState gamePlayerStateN;
 
     private LocalDateTime createTime;
 

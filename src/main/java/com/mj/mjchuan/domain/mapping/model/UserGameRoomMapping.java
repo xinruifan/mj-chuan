@@ -21,6 +21,8 @@ public class UserGameRoomMapping {
 
     private Long roomId;
 
-    private String location;
+    private Long score;
+
+    private Integer location;
 
 }
