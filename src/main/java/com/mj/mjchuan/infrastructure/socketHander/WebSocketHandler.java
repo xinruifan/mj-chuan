@@ -1,7 +1,7 @@
 package com.mj.mjchuan.infrastructure.socketHander;
 
 import cn.hutool.json.JSONObject;
-import com.mj.mjchuan.application.GameRoomAgg;
+import com.mj.mjchuan.application.service.GameRoomAgg;
 import com.mj.mjchuan.presentation.req.CreateRoomReq;
 import com.mj.mjchuan.presentation.req.ReadyPlayerReq;
 import lombok.extern.slf4j.Slf4j;

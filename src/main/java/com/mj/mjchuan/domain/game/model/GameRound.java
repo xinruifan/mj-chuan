@@ -5,6 +5,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * @author xinruifan
@@ -22,7 +23,9 @@ public class GameRound {
 
     private Long roundCount;
 
-    private String wallCard;
+    @Type(type = "json")
+    @Column(columnDefinition = "json")
+    private List<Integer> wallCard;
 
     private Integer state;
 
@@ -32,7 +35,7 @@ public class GameRound {
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
-    private GamePlayerState gamePlayerStateS;
+    private GamePlayerState gamePlayerStateN;
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
@@ -40,7 +43,8 @@ public class GameRound {
 
     @Type(type = "json")
     @Column(columnDefinition = "json")
-    private GamePlayerState gamePlayerStateN;
+    private GamePlayerState gamePlayerStateS;
+
 
     private LocalDateTime createTime;
 

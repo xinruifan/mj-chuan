@@ -1,7 +1,8 @@
-package com.mj.mjchuan.application;
+package com.mj.mjchuan.application.service;
 
 import com.mj.mjchuan.domain.dto.RespActionEnum;
 import com.mj.mjchuan.domain.dto.WsSendMsgDTO;
+import com.mj.mjchuan.domain.game.model.GameRound;
 import com.mj.mjchuan.domain.game.service.GameRoundService;
 import com.mj.mjchuan.domain.game.service.RoomService;
 import com.mj.mjchuan.domain.mapping.model.UserGameRoomMapping;
@@ -32,6 +33,9 @@ public class GameRoomAgg {
 
     @Resource
     private GameRoundService gameRoundService;
+
+    @Resource
+    private GameRoundAgg gameRoundAgg;
 
 
     public void handleCreateRoom(CreateRoomReq req) throws Exception {
@@ -87,7 +91,7 @@ public class GameRoomAgg {
                     .allMatch(UserGameRoomMapping::isReady);
             if (allReady) {
                 //建轮
-                gameRoundService.createGameRound(req.getRoomId());
+                gameRoundAgg.createGameRound(req.getRoomId());
             }
         }
     }

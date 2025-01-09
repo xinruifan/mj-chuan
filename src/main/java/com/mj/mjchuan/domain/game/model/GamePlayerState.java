@@ -2,6 +2,8 @@ package com.mj.mjchuan.domain.game.model;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @author xinruifan
  * @create 2025-01-07 19:02
@@ -13,13 +15,13 @@ public class GamePlayerState {
 
     private String location;
 
-    private String handCard;
+    private List<Integer> handCard;
 
-    private String pengCard;
+    private List<Integer> pengCard;
 
-    private String gangCard;
+    private List<Integer> gangCard;
 
-    private String chuCard;
+    private List<Integer> chuCard;
 
     private boolean win;
 

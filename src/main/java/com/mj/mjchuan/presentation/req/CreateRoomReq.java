@@ -13,5 +13,5 @@ public class CreateRoomReq {
 
     private List<Long> ruleId;
 
-    private Long totalRound;
+    private Integer totalRound;
 }

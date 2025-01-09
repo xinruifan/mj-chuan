@@ -2,6 +2,8 @@ package com.mj.mjchuan.domain.game.enums;
 
 import lombok.Getter;
 
+import java.util.Random;
+
 /**
  * @author xinruifan
  * @create 2025-01-08 16:16
@@ -10,9 +12,9 @@ import lombok.Getter;
 public enum RoomLocationEnum {
 
     EAST(1,"east"),
-    SOUTH(2,"south"),
+    NORTH(2,"north"),
     WEST(3, "west"),
-    NORTH(4,"north"),
+    SOUTH(4,"south"),
     ;
 
 
@@ -42,6 +44,12 @@ public enum RoomLocationEnum {
             }
         }
         throw new IllegalArgumentException("No enum found for desc: " + desc);
+    }
+
+    public static RoomLocationEnum getRandomLocation() {
+        Random random = new Random();
+        RoomLocationEnum[] values = RoomLocationEnum.values();
+        return values[random.nextInt(values.length)];
     }
 
 }

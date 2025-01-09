@@ -6,7 +6,7 @@ import com.mj.mjchuan.domain.game.enums.RoomStateEnum;
 import com.mj.mjchuan.domain.game.model.GameRoom;
 import com.mj.mjchuan.domain.game.service.RoomService;
 import com.mj.mjchuan.domain.mapping.model.UserGameRoomMapping;
-import com.mj.mjchuan.infrastructure.repository.RoomRepository;
+import com.mj.mjchuan.infrastructure.repository.GameRoomRepository;
 import com.mj.mjchuan.infrastructure.repository.UserGameRoomRepository;
 import com.mj.mjchuan.presentation.req.CreateRoomReq;
 import com.mj.mjchuan.presentation.req.ReadyPlayerReq;
@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 public class RoomServiceImpl implements RoomService {
 
     @Resource
-    private RoomRepository roomRepository;
+    private GameRoomRepository gameRoomRepository;
     @Resource
     private UserGameRoomRepository userGameRoomRepository;
 
@@ -42,7 +42,7 @@ public class RoomServiceImpl implements RoomService {
         gameRoom.setState(RoomStateEnum.WHIT.toString());
         gameRoom.setTotalRound(createRoomReq.getTotalRound());
         gameRoom.setCreateTime(LocalDateTime.now());
-        roomRepository.save(gameRoom);
+        gameRoomRepository.save(gameRoom);
 
         UserGameRoomMapping userGameRoomMapping = new UserGameRoomMapping();
         userGameRoomMapping.setRoomId(gameRoom.getId());
@@ -56,7 +56,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public List<UserGameRoomMapping> joinRoom(Long roomId, Long userId) throws Exception {
         //step1 check room
-        GameRoom gameRoom = roomRepository.findById(roomId).orElseThrow(() -> new Exception("房间不存在"));
+        GameRoom gameRoom = gameRoomRepository.findById(roomId).orElseThrow(() -> new Exception("房间不存在"));
         if(RoomStateEnum.BEGIN.toString().equals(gameRoom.getState())){
             throw new Exception("房间已开始");
         }
@@ -91,11 +91,11 @@ public class RoomServiceImpl implements RoomService {
 
         List<UserGameRoomMapping> userGameRoomMappings = userGameRoomRepository.findByRoomId(roomId);
 
-        GameRoom gameRoom = roomRepository.findById(roomId).orElseThrow(() -> new Exception("房间不存在"));
+        GameRoom gameRoom = gameRoomRepository.findById(roomId).orElseThrow(() -> new Exception("房间不存在"));
         //无人
         if(CollectionUtils.isEmpty(userGameRoomMappings)){
             gameRoom.setState(RoomStateEnum.END.toString());
-            roomRepository.save(gameRoom);
+            gameRoomRepository.save(gameRoom);
             return null;
         }
         return userGameRoomMappings;

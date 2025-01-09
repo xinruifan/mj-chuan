@@ -14,6 +14,10 @@ public enum RespActionEnum {
      * 刷新房间人员
      */
     REFRESH_ROOM_PLAYER,
+    /**
+     * 劝退
+     */
+    DISSUADE_PLAYER,
 
     ;
 }

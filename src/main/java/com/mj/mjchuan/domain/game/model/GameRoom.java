@@ -20,7 +20,7 @@ public class GameRoom {
 
     private String ruleId;
 
-    private Long totalRound;
+    private Integer totalRound;
 
     // wait begin end
     private String state;
