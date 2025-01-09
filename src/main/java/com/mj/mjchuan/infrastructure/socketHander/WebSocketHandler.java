@@ -1,7 +1,7 @@
 package com.mj.mjchuan.infrastructure.socketHander;
 
 import cn.hutool.json.JSONObject;
-import com.mj.mjchuan.application.socket.WebSocketAgg;
+import com.mj.mjchuan.application.GameRoomAgg;
 import com.mj.mjchuan.presentation.req.CreateRoomReq;
 import com.mj.mjchuan.presentation.req.ReadyPlayerReq;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +20,7 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
 
 
     @Resource
-    private WebSocketAgg webSocketAgg;
+    private GameRoomAgg gameRoomAgg;
 
     // 处理接收到的文本消息
     @Override
@@ -32,16 +32,16 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
             Object obj = msg.getObj("obj");
             switch (action) {
                 case "createRoom":
-                    webSocketAgg.handleCreateRoom((CreateRoomReq) obj);
+                    gameRoomAgg.handleCreateRoom((CreateRoomReq) obj);
                     break;
                 case "joinRoom":
-                    webSocketAgg.handleJoinRoom((Long) obj);
+                    gameRoomAgg.handleJoinRoom((Long) obj);
                     break;
                 case "leaveRoom":
-                    webSocketAgg.handleLeaveRoom((Long) obj);
+                    gameRoomAgg.handleLeaveRoom((Long) obj);
                     break;
                 case "ready":
-                    webSocketAgg.handleReady((ReadyPlayerReq) obj);
+                    gameRoomAgg.handleReady((ReadyPlayerReq) obj);
                     break;
                 default:
                     session.sendMessage(new TextMessage("{\"status\": \"error\", \"message\": \"Unknown action\"}"));

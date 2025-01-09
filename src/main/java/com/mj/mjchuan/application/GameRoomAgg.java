@@ -1,4 +1,4 @@
-package com.mj.mjchuan.application.socket;
+package com.mj.mjchuan.application;
 
 import com.mj.mjchuan.domain.dto.RespActionEnum;
 import com.mj.mjchuan.domain.dto.WsSendMsgDTO;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  * @create 2025-01-09 10:31
  */
 @Component
-public class WebSocketAgg {
+public class GameRoomAgg {
 
     @Resource
     private WebSocketSendMsg webSocketSendMsg;
