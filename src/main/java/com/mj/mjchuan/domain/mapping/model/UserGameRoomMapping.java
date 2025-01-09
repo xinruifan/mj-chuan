@@ -25,4 +25,6 @@ public class UserGameRoomMapping {
 
     private Integer location;
 
+    private boolean ready;
+
 }

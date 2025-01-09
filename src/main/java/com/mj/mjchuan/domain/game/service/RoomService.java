@@ -10,4 +10,10 @@ public interface RoomService {
 
 
     Long createRoom(CreateRoomReq createRoomReq, Long userId);
+
+    boolean joinRoom(Long roomId, Long userId) throws Exception;
+
+    boolean leaveRoom(Long roomId, Long userId) throws Exception;
+
+    boolean ready(Long roomId, Long userId);
 }
