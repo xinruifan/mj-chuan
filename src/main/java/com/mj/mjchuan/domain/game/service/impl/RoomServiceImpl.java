@@ -9,7 +9,9 @@ import com.mj.mjchuan.domain.mapping.model.UserGameRoomMapping;
 import com.mj.mjchuan.infrastructure.repository.RoomRepository;
 import com.mj.mjchuan.infrastructure.repository.UserGameRoomRepository;
 import com.mj.mjchuan.presentation.req.CreateRoomReq;
+import com.mj.mjchuan.presentation.req.ReadyPlayerReq;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -52,7 +54,7 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public boolean joinRoom(Long roomId, Long userId) throws Exception {
+    public List<UserGameRoomMapping> joinRoom(Long roomId, Long userId) throws Exception {
         //step1 check room
         GameRoom gameRoom = roomRepository.findById(roomId).orElseThrow(() -> new Exception("房间不存在"));
         if(RoomStateEnum.BEGIN.toString().equals(gameRoom.getState())){
@@ -74,28 +76,43 @@ public class RoomServiceImpl implements RoomService {
             userGameRoomMapping.setLocation(randomLocation);
             userGameRoomMapping.setScore(0L);
             userGameRoomRepository.save(userGameRoomMapping);
+            userGameRoomMappings.add(userGameRoomMapping);
         } else {
             throw new Exception("房间已满");
         }
-        return true;
+
+        return userGameRoomMappings;
     }
 
     @Override
-    public boolean leaveRoom(Long roomId, Long userId) throws Exception {
+    public List<UserGameRoomMapping> leaveRoom(Long roomId, Long userId) throws Exception {
 
         userGameRoomRepository.deleteByRoomAndUser(roomId,userId);
 
+        List<UserGameRoomMapping> userGameRoomMappings = userGameRoomRepository.findByRoomId(roomId);
+
         GameRoom gameRoom = roomRepository.findById(roomId).orElseThrow(() -> new Exception("房间不存在"));
-        //进行中 全部结束
-        if(RoomStateEnum.BEGIN.toString().equals(gameRoom.getState())){
+        //无人
+        if(CollectionUtils.isEmpty(userGameRoomMappings)){
             gameRoom.setState(RoomStateEnum.END.toString());
             roomRepository.save(gameRoom);
+            return null;
         }
-        return true;
+        return userGameRoomMappings;
+
+//        //进行中 全部结束  暂不考虑
+//        if(RoomStateEnum.BEGIN.toString().equals(gameRoom.getState())){
+//            gameRoom.setState(RoomStateEnum.END.toString());
+//            roomRepository.save(gameRoom);
+//        }
     }
 
+
     @Override
-    public boolean ready(Long roomId, Long userId) {
-        return false;
+    public List<UserGameRoomMapping> ready(ReadyPlayerReq req, Long userId) {
+
+        userGameRoomRepository.updatePlayerReady(req.getRoomId(),userId,req.isReady());
+
+        return userGameRoomRepository.findByRoomId(req.getRoomId());
     }
 }

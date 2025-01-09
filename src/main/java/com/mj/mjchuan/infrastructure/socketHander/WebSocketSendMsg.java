@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,6 +37,17 @@ public class WebSocketSendMsg extends AbstractWebSocketHandler{
                     session.sendMessage(new TextMessage(msg));
                     log.info("send msg:{}", msg);
                 }
+            }
+        }
+    }
+
+
+    public void close(List<Long> userId) throws IOException {
+        for (Long id : userId) {
+            WebSocketSession session = sessions.get(id);
+            if (session != null && session.isOpen()) {
+                session.close();
+                log.info("session close:{}", id);
             }
         }
     }

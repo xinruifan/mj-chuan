@@ -3,6 +3,7 @@ package com.mj.mjchuan.infrastructure.socketHander;
 import cn.hutool.json.JSONObject;
 import com.mj.mjchuan.application.socket.WebSocketAgg;
 import com.mj.mjchuan.presentation.req.CreateRoomReq;
+import com.mj.mjchuan.presentation.req.ReadyPlayerReq;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
@@ -38,6 +39,9 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
                     break;
                 case "leaveRoom":
                     webSocketAgg.handleLeaveRoom((Long) obj);
+                    break;
+                case "ready":
+                    webSocketAgg.handleReady((ReadyPlayerReq) obj);
                     break;
                 default:
                     session.sendMessage(new TextMessage("{\"status\": \"error\", \"message\": \"Unknown action\"}"));

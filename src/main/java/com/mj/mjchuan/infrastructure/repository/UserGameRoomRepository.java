@@ -21,4 +21,9 @@ public interface UserGameRoomRepository extends JpaRepository<UserGameRoomMappin
     @Modifying
     @Query(value = "delete from user_game_room_mapping where room_id = ?1 and user_id =?2", nativeQuery = true)
     void deleteByRoomAndUser(Long roomId, Long userId);
+
+
+    @Modifying
+    @Query(value = "update user_game_room_mapping set ready = ?3 where room_id = ?1 and user_id =?2", nativeQuery = true)
+    void updatePlayerReady(Long roomId, Long userId, boolean ready);
 }
