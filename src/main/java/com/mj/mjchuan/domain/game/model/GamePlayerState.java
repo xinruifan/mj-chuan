@@ -2,6 +2,7 @@ package com.mj.mjchuan.domain.game.model;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,13 +16,13 @@ public class GamePlayerState {
 
     private String location;
 
-    private List<Integer> handCard;
+    private List<Integer> handCard = new ArrayList<>();
 
-    private List<Integer> pengCard;
+    private List<Integer> pengCard = new ArrayList<>();
 
-    private List<Integer> gangCard;
+    private List<Integer> gangCard = new ArrayList<>();
 
-    private List<Integer> chuCard;
+    private List<Integer> chuCard = new ArrayList<>();
 
     private boolean win;
 

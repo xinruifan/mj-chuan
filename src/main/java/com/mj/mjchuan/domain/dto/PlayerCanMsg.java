@@ -7,18 +7,21 @@ import lombok.NoArgsConstructor;
 
 /**
  * @author xinruifan
- * @create 2025-01-09 10:52
+ * @create 2025-01-10 14:42
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class WsSendMsgDTO {
+public class PlayerCanMsg {
 
-    private String action;
+    private boolean chu;
 
-    private Object obj;
+    private boolean hu;
 
-    private Long roundId;
+    private boolean pen;
 
+    private boolean gang;
+
+    private Integer keyCard;
 }

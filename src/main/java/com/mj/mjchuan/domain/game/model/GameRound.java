@@ -21,6 +21,8 @@ public class GameRound {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Long roomId;
+
     private Long roundCount;
 
     @Type(type = "json")

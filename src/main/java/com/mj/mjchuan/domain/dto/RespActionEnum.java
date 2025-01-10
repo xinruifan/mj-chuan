@@ -18,6 +18,14 @@ public enum RespActionEnum {
      * 劝退
      */
     DISSUADE_PLAYER,
+    /**
+     * 初始化手牌
+     */
+    INIT_PLAYER_CARD,
+    /**
+     * 下一步操作
+     */
+    NEXT_HANDLE,
 
     ;
 }
