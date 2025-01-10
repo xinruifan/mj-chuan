@@ -12,4 +12,9 @@ public class GamePlayerActionReq {
     private Long roundId;
 
     private Integer keyCard;
+
+
+    private String uuid;
+
+    private String action;
 }

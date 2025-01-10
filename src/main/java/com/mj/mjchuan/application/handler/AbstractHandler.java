@@ -1,5 +1,6 @@
 package com.mj.mjchuan.application.handler;
 
+import com.mj.mjchuan.application.cache.EventLatchManager;
 import com.mj.mjchuan.application.service.GameRoundAgg;
 import com.mj.mjchuan.application.template.GangDecisionTemplate;
 import com.mj.mjchuan.application.template.HuDecisionTemplate;
@@ -40,6 +41,8 @@ public abstract class AbstractHandler{
     public GangDecisionTemplate gangDecisionTemplate;
     @Resource
     public WebSocketSendMsg webSocketSendMsg;
+    @Resource
+    public EventLatchManager eventLatchManager;
 
 
     public void handleRequest(HandlerContext handlerContext) throws Exception {

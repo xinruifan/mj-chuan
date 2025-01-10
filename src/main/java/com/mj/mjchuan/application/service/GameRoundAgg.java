@@ -1,5 +1,6 @@
 package com.mj.mjchuan.application.service;
 
+import com.mj.mjchuan.application.cache.EventLatchManager;
 import com.mj.mjchuan.application.handler.ChuCardHandler;
 import com.mj.mjchuan.application.handler.HandleActionEnum;
 import com.mj.mjchuan.application.handler.HandlerContext;
@@ -48,6 +49,8 @@ public class GameRoundAgg {
     private ChuCardHandler chuCardHandler;
     @Resource
     private GameRecordInfoRepository gameRecordInfoRepository;
+    @Resource
+    private EventLatchManager eventLatchManager;
 
 
     public void createGameRound(Long roomId) throws Exception {
@@ -148,5 +151,18 @@ public class GameRoundAgg {
             return RoomLocationEnum.SOUTH;
         }
         return null;
+    }
+
+    public void oneselfAction(GamePlayerActionReq obj) {
+
+    }
+
+    public void otherAction(GamePlayerActionReq obj) {
+        eventLatchManager.acknowledgeEvent(obj.getUuid());
+        boolean eventCompleted = eventLatchManager.isEventCompleted(obj.getUuid());
+        if(!eventCompleted){
+            return;
+        }
+        //
     }
 }

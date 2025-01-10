@@ -52,7 +52,8 @@ public class TouchCardHandler extends AbstractHandler {
         GamePlayerState gamePlayerState = super.getByLocation(handlerContext);
         boolean hu = huDecisionTemplate.canOwnExecute(gamePlayerState, handlerContext.getCardKey());
         boolean gang = gangDecisionTemplate.canOwnExecute(gamePlayerState, handlerContext.getCardKey());
-        PlayerCanMsg msg = PlayerCanMsg.builder().chu(true).hu(hu).pen(false).gang(gang).keyCard(handlerContext.getCardKey()).build();
+        PlayerCanMsg msg = PlayerCanMsg.builder().chu(true).hu(hu).pen(false).gang(gang).isOneself(true)
+                .keyCard(handlerContext.getCardKey()).build();
         WsSendMsgDTO wsMsg = WsSendMsgDTO.builder().action(RespActionEnum.NEXT_HANDLE.toString()).obj(msg).build();
         handlerContext.getMsgMap().put(gamePlayerState.getUserId(),wsMsg);
     }

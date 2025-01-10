@@ -51,6 +51,12 @@ public class WebSocketHandler extends AbstractWebSocketHandler {
                 case "chuCard":
                     gameRoundAgg.chuCard((GamePlayerActionReq) obj);
                     break;
+                case "oneselfAction":
+                    gameRoundAgg.oneselfAction((GamePlayerActionReq) obj);
+                    break;
+                case "otherAction":
+                    gameRoundAgg.otherAction((GamePlayerActionReq) obj);
+                    break;
                 default:
                     session.sendMessage(new TextMessage("{\"status\": \"error\", \"message\": \"Unknown action\"}"));
             }

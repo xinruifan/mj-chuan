@@ -22,5 +22,7 @@ public class HandlerContext {
 
     private Integer cardKey;
 
+    private String uuid;
+
     private Map<Long, WsSendMsgDTO> msgMap = new HashMap<>();
 }

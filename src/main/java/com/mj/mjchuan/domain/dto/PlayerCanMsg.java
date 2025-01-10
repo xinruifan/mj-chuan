@@ -24,4 +24,12 @@ public class PlayerCanMsg {
     private boolean gang;
 
     private Integer keyCard;
+
+    private boolean isOneself;
+    /**
+     * 来自userID
+     */
+    private Long keyCardSource;
+
+    private String uuid;
 }
