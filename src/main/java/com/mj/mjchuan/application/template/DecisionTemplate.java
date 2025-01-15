@@ -13,4 +13,6 @@ public interface DecisionTemplate {
     boolean canOwnExecute(GamePlayerState gamePlayerState,Integer cardKey);
 
     boolean canOtherExecute(GamePlayerState gamePlayerState, Integer cardKey);
+
+    Long computeScore(GamePlayerState gamePlayerState, Integer cardKey);
 }

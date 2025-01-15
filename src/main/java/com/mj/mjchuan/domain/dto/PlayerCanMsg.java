@@ -32,4 +32,6 @@ public class PlayerCanMsg {
     private Long keyCardSource;
 
     private String uuid;
+
+    private Long roundId;
 }

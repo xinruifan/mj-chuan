@@ -9,5 +9,6 @@ public enum HandleActionEnum {
     START,
     TOUCH,
     CHU,
+    HU,
 
 }

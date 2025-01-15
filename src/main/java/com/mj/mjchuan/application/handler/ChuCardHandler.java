@@ -25,7 +25,7 @@ public class ChuCardHandler extends AbstractHandler {
 
     @Override
     protected void handle(HandlerContext handlerContext) {
-        GamePlayerState gamePlayerState = super.getByLocation(handlerContext);
+        GamePlayerState gamePlayerState = super.getByLocation(handlerContext.getGameRound(),handlerContext.getActionLocation());
         handlerContext.setUuid(UUID.randomUUID().toString());
         Integer cardKey = handlerContext.getCardKey();
         super.modifyListElem(gamePlayerState.getHandCard(), cardKey, 1, false);
@@ -72,13 +72,13 @@ public class ChuCardHandler extends AbstractHandler {
     }
 
     private void observeOtherHandler(HandlerContext handlerContext, GamePlayerState gamePlayerState) {
-        GamePlayerState actionPlayer = super.getByLocation(handlerContext);
+        GamePlayerState actionPlayer = super.getByLocation(handlerContext.getGameRound(),handlerContext.getActionLocation());
 
         boolean hu = huDecisionTemplate.canOtherExecute(gamePlayerState, handlerContext.getCardKey());
         boolean pen = penDecisionTemplate.canOtherExecute(gamePlayerState, handlerContext.getCardKey());
         boolean gang = gangDecisionTemplate.canOtherExecute(gamePlayerState, handlerContext.getCardKey());
         if (hu || pen || gang) {
-            PlayerCanMsg msg = PlayerCanMsg.builder().chu(false).hu(hu).pen(pen).gang(gang).isOneself(false)
+            PlayerCanMsg msg = PlayerCanMsg.builder().chu(false).hu(hu).pen(pen).gang(gang).isOneself(false).roundId(handlerContext.getGameRound().getId())
                     .keyCardSource(actionPlayer.getUserId()).keyCard(handlerContext.getCardKey()).uuid(handlerContext.getUuid()).build();
             WsSendMsgDTO wsMsg = WsSendMsgDTO.builder().action(RespActionEnum.NEXT_HANDLE.toString()).obj(msg).build();
             handlerContext.getMsgMap().put(gamePlayerState.getUserId(), wsMsg);

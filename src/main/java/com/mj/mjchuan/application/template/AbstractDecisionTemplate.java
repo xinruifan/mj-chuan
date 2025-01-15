@@ -17,4 +17,9 @@ public class AbstractDecisionTemplate implements DecisionTemplate{
     public boolean canOtherExecute(GamePlayerState gamePlayerState, Integer cardKey) {
         return false;
     }
+
+    @Override
+    public Long computeScore(GamePlayerState gamePlayerState, Integer cardKey) {
+        return null;
+    }
 }

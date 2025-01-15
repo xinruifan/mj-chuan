@@ -13,8 +13,11 @@ public class GamePlayerActionReq {
 
     private Integer keyCard;
 
+    private Long keyCardSource;
 
     private String uuid;
 
     private String action;
+
+    private Long userId;
 }

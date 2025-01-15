@@ -1,10 +1,7 @@
 package com.mj.mjchuan.application.service;
 
 import com.mj.mjchuan.application.cache.EventLatchManager;
-import com.mj.mjchuan.application.handler.ChuCardHandler;
-import com.mj.mjchuan.application.handler.HandleActionEnum;
-import com.mj.mjchuan.application.handler.HandlerContext;
-import com.mj.mjchuan.application.handler.TouchCardHandler;
+import com.mj.mjchuan.application.handler.*;
 import com.mj.mjchuan.application.manager.CardManager;
 import com.mj.mjchuan.domain.dto.RespActionEnum;
 import com.mj.mjchuan.domain.dto.WsSendMsgDTO;
@@ -21,11 +18,14 @@ import com.mj.mjchuan.infrastructure.repository.GameRoundRepository;
 import com.mj.mjchuan.infrastructure.repository.UserGameRoomRepository;
 import com.mj.mjchuan.infrastructure.socketHander.WebSocketSendMsg;
 import com.mj.mjchuan.presentation.req.GamePlayerActionReq;
+import com.mj.mjchuan.presentation.req.PlayerActionEnum;
 import org.springframework.stereotype.Component;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -48,9 +48,11 @@ public class GameRoundAgg {
     @Resource
     private ChuCardHandler chuCardHandler;
     @Resource
+    private HuCardHandler huCardHandler;
+    @Resource
     private GameRecordInfoRepository gameRecordInfoRepository;
     @Resource
-    private EventLatchManager eventLatchManager;
+    private EventLatchManager<GamePlayerActionReq> eventLatchManager;
 
 
     public void createGameRound(Long roomId) throws Exception {
@@ -153,16 +155,53 @@ public class GameRoundAgg {
         return null;
     }
 
-    public void oneselfAction(GamePlayerActionReq obj) {
+    public void oneselfAction(GamePlayerActionReq obj) throws Exception {
+        HandlerContext handlerContext = new HandlerContext();
+        GameRound gameRound = gameRoundRepository.findById(obj.getRoundId()).orElse(null);
+        RoomLocationEnum actionLocation = getLocationByUser(obj.getUserId(), gameRound);
+        handlerContext.setGameRound(gameRound);
+        handlerContext.setCardKey(obj.getKeyCard());
+        handlerContext.setActionLocation(actionLocation);
+        if(obj.getAction().equals(PlayerActionEnum.HU.toString())){
+            huCardHandler.handleRequest(handlerContext);
+            //
+            return;
+        }
+        if(obj.getAction().equals(PlayerActionEnum.GANG.toString())){
 
+        }
+        if(obj.getAction().equals(PlayerActionEnum.PEN.toString())){
+
+        }
     }
 
     public void otherAction(GamePlayerActionReq obj) {
-        eventLatchManager.acknowledgeEvent(obj.getUuid());
+        obj.setUserId(ReqContext.getUserId());
+        eventLatchManager.acknowledgeEvent(obj.getUuid(), obj);
         boolean eventCompleted = eventLatchManager.isEventCompleted(obj.getUuid());
-        if(!eventCompleted){
+        if (!eventCompleted) {
             return;
         }
-        //
+        List<GamePlayerActionReq> receivedAcks = eventLatchManager.getReceivedAcks(obj.getUuid());
+        Map<String, List<GamePlayerActionReq>> actionMap = receivedAcks.stream().collect(Collectors.groupingBy(GamePlayerActionReq::getAction));
+
+        List<GamePlayerActionReq> huActionReq = actionMap.get(PlayerActionEnum.HU.toString());
+        if(!CollectionUtils.isEmpty(huActionReq)){
+            //分别处理huhandler
+            //分派下一个摸 or 结束
+            return;
+        }
+        List<GamePlayerActionReq> gangActionReq = actionMap.get(PlayerActionEnum.HU.toString());
+        if(!CollectionUtils.isEmpty(gangActionReq)){
+            //处理gangHandler
+            return;
+        }
+        List<GamePlayerActionReq> penActionReq = actionMap.get(PlayerActionEnum.PEN.toString());
+        if(!CollectionUtils.isEmpty(penActionReq)){
+            //处理penHandler
+            return;
+        }
+        //next m
+
     }
 }

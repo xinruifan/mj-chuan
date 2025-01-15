@@ -17,7 +17,6 @@ public class HandlerContext {
 
     private GameRound gameRound;
 
-
     private RoomLocationEnum actionLocation;
 
     private Integer cardKey;
@@ -25,4 +24,6 @@ public class HandlerContext {
     private String uuid;
 
     private Map<Long, WsSendMsgDTO> msgMap = new HashMap<>();
+
+    private RoomLocationEnum sourceLocation;
 }

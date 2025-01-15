@@ -82,17 +82,17 @@ public abstract class AbstractHandler{
         }
     }
 
-    public GamePlayerState getByLocation(HandlerContext handlerContext) {
+    public GamePlayerState getByLocation(GameRound gameRound,RoomLocationEnum actionLocation) {
 
-        switch (handlerContext.getActionLocation()) {
+        switch (actionLocation) {
             case EAST:
-                return handlerContext.getGameRound().getGamePlayerStateE();
+                return gameRound.getGamePlayerStateE();
             case NORTH:
-                return handlerContext.getGameRound().getGamePlayerStateN();
+                return gameRound.getGamePlayerStateN();
             case WEST:
-                return handlerContext.getGameRound().getGamePlayerStateW();
+                return gameRound.getGamePlayerStateW();
             case SOUTH:
-                return handlerContext.getGameRound().getGamePlayerStateS();
+                return gameRound.getGamePlayerStateS();
             default:
                 return null;
         }

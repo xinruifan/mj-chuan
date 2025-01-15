@@ -36,7 +36,7 @@ public class TouchCardHandler extends AbstractHandler {
     @Override
     protected void handle(HandlerContext handlerContext) {
         GameRound gameRound = handlerContext.getGameRound();
-        GamePlayerState gamePlayerState = super.getByLocation(handlerContext);
+        GamePlayerState gamePlayerState = super.getByLocation(handlerContext.getGameRound(),handlerContext.getActionLocation());
         Integer cardKey = gameRound.getWallCard().remove(0);
         handlerContext.setCardKey(cardKey);
         gamePlayerState.getHandCard().add(cardKey);
@@ -49,11 +49,11 @@ public class TouchCardHandler extends AbstractHandler {
 
     @Override
     protected void nextCanHandle(HandlerContext handlerContext) {
-        GamePlayerState gamePlayerState = super.getByLocation(handlerContext);
+        GamePlayerState gamePlayerState = super.getByLocation(handlerContext.getGameRound(),handlerContext.getActionLocation());
         boolean hu = huDecisionTemplate.canOwnExecute(gamePlayerState, handlerContext.getCardKey());
         boolean gang = gangDecisionTemplate.canOwnExecute(gamePlayerState, handlerContext.getCardKey());
         PlayerCanMsg msg = PlayerCanMsg.builder().chu(true).hu(hu).pen(false).gang(gang).isOneself(true)
-                .keyCard(handlerContext.getCardKey()).build();
+                .roundId(handlerContext.getGameRound().getId()).keyCard(handlerContext.getCardKey()).build();
         WsSendMsgDTO wsMsg = WsSendMsgDTO.builder().action(RespActionEnum.NEXT_HANDLE.toString()).obj(msg).build();
         handlerContext.getMsgMap().put(gamePlayerState.getUserId(),wsMsg);
     }
